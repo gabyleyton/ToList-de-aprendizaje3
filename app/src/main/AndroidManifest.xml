@@ -13,20 +13,37 @@
         android:theme="@style/Theme.ToListdeaprendizaje"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityTransIden"
+            android:exported="false"/>
+
+        <activity
+            android:name=".ActivityMediosIden"
+            android:exported="false"/>
+
+        <activity
+            android:name=".ActivitySCiden"
+            android:exported="false" />
+        <activity
+            android:name=".Activity_IyA"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityPyS"
+            android:exported="false" />
+        <activity
             android:name=".ActivityMenu"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
