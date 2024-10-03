@@ -1,125 +1,152 @@
 package com.example.tolist_de_aprendizaje;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText inputNombre, inputEmail, inputTelefono, inputPassw1, inputConfirmPassw;
-    private TextView tvTituloForm, textMessage;
-    private Button btnRegistrar, btnBack;
+    // Definir variables
+    public EditText inputNombre, inputEmail, inputTelefono, inputPassw1, inputConfirmPassw;
+    public Button btnRegistrar;
+    public TextView textMessage;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
-        // Inicialización de los elementos del layout
+        // Inicializar variables del layout
         inputNombre = findViewById(R.id.inputNombre);
         inputEmail = findViewById(R.id.inputEmail);
         inputTelefono = findViewById(R.id.inputTelefono);
         inputPassw1 = findViewById(R.id.inputPassw1);
-        inputConfirmPassw = findViewById(R.id.inputConfirmPassw);
-
-        tvTituloForm = findViewById(R.id.tvTituloForm);
+        btnRegistrar = findViewById(R.id.btnRegistrar);
         textMessage = findViewById(R.id.textMessage);
 
-        btnRegistrar = findViewById(R.id.btnRegistrar);
-        btnBack = findViewById(R.id.btnBack);
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Obtener los datos ingresados por el usuario
+                String nombre = inputNombre.getText().toString().trim();
+                String email = inputEmail.getText().toString().trim();
+                String telefono = inputTelefono.getText().toString().trim();
+                String password = inputPassw1.getText().toString().trim();
 
-        // Lógica para regresar al MainActivity con btnBack
-        btnBack.setOnClickListener(v -> finish());
-
-        // Lógica del botón de registro
-        btnRegistrar.setOnClickListener(v -> {
-            String nombre = inputNombre.getText().toString();
-            String email = inputEmail.getText().toString();
-            String telefono = inputTelefono.getText().toString();
-            String passw1 = inputPassw1.getText().toString();
-            String passw2 = inputConfirmPassw.getText().toString();
-
-            if (passw1.equals(passw2)) {
-                // Enviar datos a la base de datos mediante una petición HTTP
-                new RegistrarUsuarioTask().execute(nombre, email, telefono, passw1);
-            } else {
-                textMessage.setText("Las contraseñas no coinciden");
-                Toast.makeText(RegisterActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                // Validar campos
+                if (!nombre.isEmpty() && !email.isEmpty() && !telefono.isEmpty() && !password.isEmpty()) {
+                    // Llamar al método para realizar el registro
+                    registrarUsuario(nombre, email, telefono, password);
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    // AsyncTask para realizar la petición HTTP en segundo plano
-    private class RegistrarUsuarioTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            String nombre = params[0];
-            String email = params[1];
-            String telefono = params[2];
-            String password = params[3];
+    // Método para registrar usuario en segundo plano usando un hilo
+    private void registrarUsuario(final String nombre, final String email, final String telefono, final String password) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // URL de tu archivo PHP para el registro
+                    URL url = new URL("http://192.168.56.1/register.php");
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
 
-            try {
-                // Definir la URL del archivo PHP
-                URL url = new URL("http://10.0.2.2/register.php");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
+                    // Enviar datos al servidor
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
-                // Preparar los datos a enviar
-                String data = URLEncoder.encode("nombre", "UTF-8") + "=" + URLEncoder.encode(nombre, "UTF-8") + "&" +
-                        URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&" +
-                        URLEncoder.encode("telefono", "UTF-8") + "=" + URLEncoder.encode(telefono, "UTF-8") + "&" +
-                        URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+                    String post_data = URLEncoder.encode("nombre", "UTF-8") + "=" + URLEncoder.encode(nombre, "UTF-8") + "&"
+                            + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&"
+                            + URLEncoder.encode("telefono", "UTF-8") + "=" + URLEncoder.encode(telefono, "UTF-8") + "&"
+                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
 
-                // Enviar los datos al servidor
-                Writer writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-                writer.write(data);
-                writer.flush();
-                writer.close();
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
 
-                // Leer la respuesta del servidor
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder result = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
+                    // Obtener la respuesta del servidor
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                    final StringBuilder result = new StringBuilder();
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    bufferedReader.close();
+                    inputStream.close();
+                    httpURLConnection.disconnect();
+
+                    // Mostrar la respuesta en el hilo principal (UI Thread)
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String serverResponse = result.toString().trim();
+                            if (serverResponse.equals("success")) {
+                                Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_LONG).show();
+
+                                // Limpiar los campos de entrada
+                                inputNombre.setText("");
+                                inputEmail.setText("");
+                                inputTelefono.setText("");
+                                inputPassw1.setText("");
+                                inputConfirmPassw.setText("");
+
+                                // Retrasar la redirección al MainActivity por 3 segundos (3000 ms)
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                }, 3000); // 3 segundos de retraso
+
+                            } else if (serverResponse.equals("email_exists")) {
+                                Toast.makeText(RegisterActivity.this, "El email ya está registrado", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Mostrar error en el hilo principal (UI Thread)
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(RegisterActivity.this, "Error en la conexión: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
-                reader.close();
-
-                return result.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
             }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result != null && result.equals("success")) {
-                Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
-            }
-        }
+        }).start();
     }
 }
