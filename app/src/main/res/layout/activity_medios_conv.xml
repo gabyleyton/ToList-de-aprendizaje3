@@ -9,7 +9,7 @@
     tools:context=".ActivityTransIden">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/nivelmed"
         android:layout_width="144dp"
         android:layout_height="22dp"
         android:layout_marginBottom="52dp"
@@ -21,12 +21,12 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/convmed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Convivencia y ciudadanía"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/nivelmed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

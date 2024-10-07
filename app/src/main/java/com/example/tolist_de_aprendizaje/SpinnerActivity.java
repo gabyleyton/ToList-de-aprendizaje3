@@ -98,6 +98,24 @@ public class SpinnerActivity extends AppCompatActivity {
                     }
                 }
                 // Aquí puedes agregar más condiciones si es necesario
+            } else if (selectedNivel.equals("Comunicación integral")) {
+                if (selectedSubnivel.equals("Lenguaje verbal")) {
+                    if (selectedProyecto.equals("Sala cuna")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityScVerb.class);
+                    } else if (selectedProyecto.equals("Niveles medios")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityMediosVerb.class);
+                    } else if (selectedProyecto.equals("Transición")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityTransVerb.class);
+                    }
+                } else if (selectedSubnivel.equals("Lenguajes artísticos")) {
+                    if (selectedProyecto.equals("Sala cuna")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityScArt.class);
+                    } else if (selectedProyecto.equals("Niveles medios")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityMediosArt.class);
+                    } else if (selectedProyecto.equals("Transición")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityTransArt.class);
+                    }
+                }
             }
 
             if (intent != null) {

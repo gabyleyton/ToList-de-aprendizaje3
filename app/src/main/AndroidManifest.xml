@@ -17,6 +17,24 @@
         android:theme="@style/Theme.ToListdeaprendizaje"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityTransArt"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityMediosArt"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityScArt"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityTransVerb"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityMediosVerb"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityScVerb"
+            android:exported="false" />
+        <activity
             android:name=".ActivityTransCorp"
             android:exported="false" />
         <activity

@@ -5,8 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    tools:context=".SCconv">
+    tools:context=".ActivityScVerb">
 
     <TextView
         android:id="@+id/salacuna"
@@ -21,15 +20,16 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/convsc"
+        android:id="@+id/verbsc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Convivencia y ciudadanía"
+        android:text="Lenguaje Verbal"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/salacuna"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_objectives"
         android:layout_width="343dp"
