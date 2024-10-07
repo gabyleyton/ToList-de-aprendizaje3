@@ -10,53 +10,47 @@
 
     <ViewFlipper
         android:id="@+id/slider"
-        android:layout_width="331dp"
-        android:layout_height="282dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="52dp"
         android:layout_marginBottom="31dp"
-        app:layout_constraintBottom_toTopOf="@+id/DesaBtn"
+        app:layout_constraintBottom_toTopOf="@+id/verObjetivosBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/DesaBtn"
-        android:layout_width="wrap_content"
+        android:id="@+id/verObjetivosBtn"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#FA734A"
-        android:text="Desarrollo personal y social "
+        android:text="Ver objetivos"
         android:textColorLink="#FF5722"
-        app:layout_constraintBottom_toTopOf="@+id/ComuBtn"
+        app:layout_constraintBottom_toTopOf="@+id/registrarEvaluacionBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider"
-        app:rippleColor="#FF5722" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/ComuBtn"
-        android:layout_width="wrap_content"
+        android:id="@+id/registrarEvaluacionBtn"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#FFEB3B"
-        android:text="Comunicación integral "
-        app:layout_constraintBottom_toTopOf="@+id/InterBtn"
+        android:text="Registrar evaluación"
+        app:layout_constraintBottom_toTopOf="@+id/verEstadisticasBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DesaBtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/InterBtn"
-        android:layout_width="wrap_content"
+        android:id="@+id/verEstadisticasBtn"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="176dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="#36AB3A"
-        android:text="Interacción y comprensión del entorno"
+        android:text="Ver estadísticas"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ComuBtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
