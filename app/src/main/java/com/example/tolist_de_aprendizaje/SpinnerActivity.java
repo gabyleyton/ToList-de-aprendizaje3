@@ -1,21 +1,14 @@
 package com.example.tolist_de_aprendizaje;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.HashMap;
 
@@ -83,15 +76,35 @@ public class SpinnerActivity extends AppCompatActivity {
             String selectedSubnivel = (String) spinnerSubniveles.getSelectedItem();
             String selectedNivel = (String) spinnerNiveles.getSelectedItem();
 
-            // Lógica para dirigir a la actividad correcta
-            if (selectedNivel.equals("Desarrollo personal y social") &&
-                    selectedSubnivel.equals("Identidad y autonomía") &&
-                    selectedProyecto.equals("Niveles medios")) {
+            Intent intent = null;
 
-                Intent intent = new Intent(SpinnerActivity.this, ActivityMediosIden.class); // Cambia el nombre de la clase según corresponda
+            // Lógica para dirigir a la actividad correcta
+            if (selectedNivel.equals("Desarrollo personal y social")) {
+                if (selectedSubnivel.equals("Identidad y autonomía")) {
+                    if (selectedProyecto.equals("Sala cuna")) {
+                        intent = new Intent(SpinnerActivity.this, ActivitySCiden.class);
+                    } else if (selectedProyecto.equals("Niveles medios")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityMediosIden.class);
+                    } else if (selectedProyecto.equals("Transición")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityTransIden.class);
+                    }
+                } else if (selectedSubnivel.equals("Convivencia y ciudadanía")) {
+                    if (selectedProyecto.equals("Sala cuna")) {
+                        intent = new Intent(SpinnerActivity.this, SCconv.class);
+                    } else if (selectedProyecto.equals("Niveles medios")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityMediosConv.class);
+                    } else if (selectedProyecto.equals("Transición")) {
+                        intent = new Intent(SpinnerActivity.this, ActivityTransConv.class);
+                    }
+                }
+                // Aquí puedes agregar más condiciones si es necesario
+            }
+
+            if (intent != null) {
                 startActivity(intent);
             } else {
-                // Puedes manejar otras combinaciones aquí o redirigir a una actividad por defecto
+                // Manejo de error si no se encontró la actividad
+                // Puedes mostrar un Toast o un mensaje al usuario
             }
         });
     }
